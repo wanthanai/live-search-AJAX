@@ -1,0 +1,93 @@
+<!--! Sorry if my English is not good enough. -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Members</title>
+    <link rel="stylesheet" href="style.css">
+    <!--! import cdn jquery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+    
+    <!--! container wrapper  -->
+    <div class="container">
+        <!--! header -->
+        <h2 class="header_text" align="center">Family Members</h2>
+
+        <!--! search bar -->
+        <div class="search_wrapper">
+            <input type="text" name="search" id="search" class="form-control" placeholder="Search Family Members Details">
+        </div>
+
+        <ul class="list-group" id="result">
+            <!--! ENG( Add a style before getting started in the script ) TH( กำหนดไว้เเล้วใส่ style เพื่อให้ได้ style ที่เราต้องการก่อนที่จะไปทำในส่วนของ script ) -->
+            <!-- <li><img src="./profile.png" alt="icon"><p>Mr wanthanai kaiphet</p><span>Base</span><span>age xx</span></li>
+            <li><img src="./profile.png" alt="icon"><p>Mr wanthanai kaiphet</p><span>Base</span><span>age xx</span></li>
+            <li><img src="./profile.png" alt="icon"><p>Mr wanthanai kaiphet</p><span>Base</span><span>age xx</span></li>
+            <li><img src="./profile.png" alt="icon"><p>Mr wanthanai kaiphet</p><span>Base</span><span>age xx</span></li>
+            <li><img src="./profile.png" alt="icon"><p>Mr wanthanai kaiphet</p><span>Base</span><span>age xx</span></li> -->
+        </ul>
+    </div>
+
+
+    <!--! script -->
+    <script>
+
+        $(document).ready(() => {
+
+            $.ajaxSetup({ cache: false });
+
+            $('#search').keyup(() => {
+                $('#result').css({"display": "block"});
+                $('#result').html('');
+                var searchField = $('#search').val();
+                var expression = new RegExp(searchField, "i");
+
+                $.getJSON('./test.json', (data) => {
+                    $.each(data, (key, value) => {
+
+                        for(var i=0; i < value.length; i++) {
+                            console.log(searchField.length);
+                            if(value[i].name.fname.search(expression) != -1 
+                            || value[i].name.lname.search(expression) != -1
+                            // || value[i].name.nickname.search(expression) != -1
+                            // || value[i].age.search(expression) != -1
+                            ){
+                                $('#result').append(`<li><img src="./profile.png" alt="icon"><p>${value[i].name.title} ${value[i].name.fname} ${value[i].name.lname}</p><span>${value[i].name.nickname}</span><span>age ${value[i].age}</span></li>`);
+                            } 
+                        }
+                    })
+                })
+
+                if(searchField.length === 0) {
+                    $('#result').css({"display": "none"});
+                }
+            })
+
+            // CSS API
+            $('body').click(() => {
+                let loopBodyNum = 0;
+                const loopBody = setInterval(() => {
+
+                    var styleSearch = $('#search').css("width") // TH( ถ้าหลายตัวให้ใช้ array [] ), ENG( if multiple are needed, use array [] )
+                    // console.log(styleSearch);
+                    $('#result').css({"width": styleSearch}); 
+
+                    loopBodyNum++
+                    console.log(loopBodyNum)
+                    if(loopBodyNum === 20) {
+                        clearInterval(loopBody);
+                    }
+                }, 400)
+            })
+
+        })
+
+    </script>
+
+
+</body>
+</html>
