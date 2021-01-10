@@ -62,12 +62,13 @@
                     })
                 })
 
+                // fixed search bar
                 if(searchField.length === 0) {
                     $('#result').css({"display": "none"});
                 }
             })
 
-            // CSS API
+            // CSS API / fixed width 
             $('body').click(() => {
                 let loopBodyNum = 0;
                 const loopBody = setInterval(() => {
